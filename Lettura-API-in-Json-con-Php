@@ -1,0 +1,54 @@
+<?php
+//Questo è uno studio che ho fatto per capire come poter leggere delle Api in Json con Php
+
+  //Legge il file in remoto o in locale
+  $data=file_get_contents('https://jsonplaceholder.typicode.com/albums'); 
+
+  //Controllo che la risposta dal server sia 200 (richiesta http andata a buon fine)
+  if (str_contains($http_response_header[0], '200')){ 
+    
+    //Decodifica il file Json creando un oggetto 
+    $obj = json_decode($data,false); 
+    //var_dump($obj); //Mostra a video la natura e il contenuto del file
+    //print_r ($obj); //Più o meno come sopra
+    //print_r ($obj[0]); //Mostra il solo record 0
+    //echo "<br>";
+    //echo $obj[0]->title; //Mostra il campo titolo del record 0
+
+    //----Estrazione dei dati contenuti nell'oggetto col metodo foreach----
+    foreach ($obj as $result) {
+      echo $result->userId . " " . $result->id . " " . $result->title . "<br/>";
+    }
+
+    //-----Estrazione dei dati contenuti nell'oggetto col metodo for----
+    /*$objlenght = count((array)$obj);//Occorre traformare l'oggetto in un array per poterne conteggiare i record
+
+    for($i=0; $i < $objlenght; $i++) {
+      echo $obj[$i]->userId." ". $obj[$i]->id ." " . $obj[$i]->title."<br>" ;
+    }*/
+
+    //----Decodifica il file Json creando un array----
+    //$arr = json_decode($data,true);
+    //var_dump($arr);
+    //print_r ($arr);
+    //print_r ($arr[0]);
+    //echo $arr[0]['title'];
+
+    //----Estrazione dei dati contenuti nell'array col metodo foreach----
+    /*foreach($arr as $result) {
+       echo $result['userId']." ". $result['id'] ." " . $result['title']."<br>" ;
+    }*/
+
+    //-----Estrazione dei dati contenuti nell'array col metodo for----
+    /*$arrlength=count($arr);
+  
+    for($i=0; $i < $arrlength; $i++) {
+      echo $arr[$i]['userId']." ". $arr[$i]['id'] ." " . $arr[$i]['title']."<br>" ;
+    }*/
+
+}else{ //----Se la risposta dal server negativa riporto l'errore----
+  $error = error_get_last();
+    echo "Richiesta HTTP non andata a buon fine. L'errore è: " . $error['message'];
+};
+
+?>
